@@ -2,7 +2,7 @@
 """HAARSCHARF – Seiten bauen (index + Unterseiten). python3 build.py"""
 import json, os
 H = os.path.dirname(os.path.abspath(__file__))
-V = '27f'
+V = '27g'
 has = lambda k: os.path.exists(os.path.join(H, 'assets/img', k + '.webp'))
 SEQ = json.load(open(os.path.join(H, 'assets/seq/seq.json'))) if os.path.exists(os.path.join(H, 'assets/seq/seq.json')) else None
 
@@ -52,6 +52,7 @@ def foot(sub=False):
     return FOOT.replace('{p}', 'index.html' if sub else '').replace('{v}', V)
 
 
+GENDER = {'look1': 'm', 'look2': 'm', 'look3': 'm', 'look4': 'm', 'look7': 'm', 'look8': 'm', 'look5': 'w', 'look6': 'w', 'look9': 'w', 'look10': 'w', 'look11': 'w', 'look12': 'w'}
 LOOKS = [
     ('look1', 'Buzz Cut', 'Line-up', 'kurz wenig glatt', 'Ein Aufsatz rundum, dafür eine messerscharfe Kontur an Stirn und Schläfe.', '3–4 Wochen', ['Maschine mit einer Länge rundum (3–6 mm)', 'Konturen mit dem Trimmer, Stirnlinie gerade gezogen', 'Kopfhaut-Check und Pflege-Tipp']),
     ('look2', 'French Crop', 'Low Fade', 'kurz wenig glatt', 'Oben strukturiert mit kurzem Pony, an den Seiten ein tiefer Übergang.', '3–4 Wochen', ['Oberkopf mit der Schere strukturiert', 'Low Fade von 0,5 auf 6 mm', 'Matte Paste, mit den Fingern gestylt']),
@@ -59,7 +60,14 @@ LOOKS = [
     ('look4', 'Curly Taper', 'Locken', 'kurz mittel locken', 'Locken oben stehen lassen, an den Seiten sauber auslaufen lassen.', '3–4 Wochen', ['Locken trocken geschnitten, Locke für Locke', 'Taper an Schläfe und Nacken', 'Curl-Creme statt Gel']),
     ('look5', 'Long Layers', 'Curtain Bangs', 'lang mittel glatt', 'Lange Stufen für Bewegung, ein weicher Vorhang-Pony rahmt das Gesicht.', '8–10 Wochen', ['Stufen trocken nachgeschnitten', 'Curtain Bangs auf Wangenknochenhöhe', 'Föhnen mit Rundbürste, Hitzeschutz']),
     ('look6', 'Sleek Bob', 'Blunt', 'kurz viel glatt', 'Kinnlang, eine einzige gerade Linie. Glänzt, wenn man ihn glatt föhnt.', '6–8 Wochen', ['Gerade Grundlinie auf Kinnhöhe', 'Innen leicht gestuft, damit er fällt', 'Glanzspray und Glätteisen']),
+    ('look7', 'Textured Quiff', 'Volumen', 'mittel viel glatt', 'Oben Länge mit Textur, nach hinten gestylt. Seiten kurz getapert, damit der Kopf schmal wirkt.', '4–5 Wochen', ['Oberkopf mit der Schere in Stufen, Textur per Point-Cut', 'Seiten getapert von 3 auf 9 mm', 'Föhnen mit Volumen, Clay mit den Fingern']),
+    ('look8', 'Long Flow', 'Schulterlang', 'lang wenig glatt', 'Lang wachsen lassen, aber mit Plan: Spitzen gesund, Form bleibt auch hinterm Ohr.', '8–10 Wochen', ['Spitzen trocken geschnitten, Länge bleibt', 'Gewicht innen rausgenommen', 'Leichtes Öl in die Spitzen, lufttrocknen']),
+    ('look9', 'Pixie Cut', 'Textur', 'kurz wenig glatt', 'Kurz, aber weich: längerer Pony zur Seite, Nacken eng. Morgens in zwei Minuten fertig.', '5–6 Wochen', ['Nacken und Ohren eng geschnitten', 'Oberkopf strukturiert, Pony bleibt länger', 'Etwas Paste, mit den Fingern in Form']),
+    ('look10', 'Curly Shag', 'Locken', 'mittel mittel locken', 'Stufen, die Locken Platz geben. Vorhang-Pony rahmt das Gesicht, nichts wird glatt gezogen.', '8–10 Wochen', ['Locke für Locke trocken geschnitten', 'Stufen rund um den Kopf, Pony auf Augenhöhe', 'Curl-Creme, Diffusor auf niedriger Stufe']),
+    ('look11', 'Wavy Lob', 'Beach Waves', 'mittel wenig locken', 'Schlüsselbeinlang mit lockeren Wellen. Sieht gestylt aus, ist aber eher luftgetrocknet.', '6–8 Wochen', ['Grundlinie leicht abgerundet auf Schlüsselbeinhöhe', 'Innen ausgedünnt für Bewegung', 'Salzspray ins feuchte Haar, lufttrocknen']),
+    ('look12', 'Curl Cut', 'Lange Locken', 'lang wenig locken', 'Lange Locken in runder Form, damit nichts dreieckig absteht. Länge bleibt, Sprungkraft kommt zurück.', '10–12 Wochen', ['Trocken in natürlicher Lockenform geschnitten', 'Runde Stufen für Volumen oben', 'Leave-in, Locken nur kneten, nie bürsten']),
 ]
+LOOKS = [L for L in LOOKS if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets', 'img', L[0] + '.webp'))]  # fehlt ein Bild: Look weglassen, nie Platzhalter
 COLORS = [('color-asch', 'Aschblond', '#c9b99a'), ('color-honig', 'Honig', '#b8864b'), ('color-kupfer', 'Kupfer', '#a8481f'), ('color-espresso', 'Espresso', '#3b2a22'), ('color-rose', 'Rosé', '#b9737a')]
 TEAM = [('mara', 'Mara', 'Farbe', 'team-mara'), ('jonas', 'Jonas', 'Fade & Bart', 'team-jonas'), ('aylin', 'Aylin', 'Schnitt & Bob', 'team-aylin'), ('theo', 'Theo', 'Meister · Ausbildung', 'team-theo')]
 
@@ -70,7 +78,8 @@ def index():
         seq = f' data-n="{SEQ["n"]}" data-seq="assets/seq/d/f_###.webp?v={V}" data-seqm="assets/seq/m/f_###.webp?v={V}" data-mask="assets/seq/dm/f_###.webp?v={V}" data-maskm="assets/seq/mm/f_###.webp?v={V}"'
     preload = '<link rel="preload" as="image" href="assets/img/hero.webp" media="(min-width: 861px)" fetchpriority="high"><link rel="preload" as="image" href="assets/img/hero-m.webp" media="(max-width: 860px)" fetchpriority="high">'
     call = lambda ch, x, y, t, r=False, l=90, mx=None, my=None, ml=None: f'<div class="call{" r" if r else ""}" data-ch="{ch}" style="left:{x}%;top:{y}%;--l:{l}px;--mx:{mx if mx is not None else x}%;--my:{my if my is not None else y}%;--ml:{ml or l}px">{t}</div>'
-    looks = ''.join(f'''<a class="look rv" href="look-{k}.html" data-sub data-tags="{tags}"><span class="match">Passt zu dir</span>{pic(k, f"{n} – Beispiel-Look")}<div class="cap"><b>{n}</b><small>{s}</small></div></a>''' for k, n, s, tags, *_ in LOOKS)
+    lk = lambda g: ''.join(f'''<a class="look rv" href="look-{k}.html" data-sub data-tags="{tags}"><span class="match">Passt zu dir</span>{pic(k, f"{n} – Beispiel-Look")}<div class="cap"><b>{n}</b><small>{s}</small></div></a>''' for k, n, s, tags, *_ in LOOKS if GENDER[k] == g)
+    looks = f'<div class="grid6" data-g="m" id="looks-m">{lk("m")}</div><div class="grid6" data-g="w" id="looks-w" hidden>{lk("w")}</div>'
     cimgs = ''.join(f'<img src="assets/img/{k}.webp" alt="Haarfarbe {n}" loading="lazy" class="{"on" if k == "color-kupfer" else ""}">' for k, n, _ in COLORS if has(k))
     chips = ''.join(f'<button class="chip{" on" if k == "color-kupfer" else ""}" style="background:{c}" data-name="{n}" aria-label="{n}"><span>{n}</span></button>' for k, n, c in COLORS if has(k))
     sty = ''.join(f'<button class="sty" data-s="{k}" data-name="{n}">{"<img src=assets/img/" + a + ".webp alt=" + n + " loading=lazy>" if has(a) else ""}{n}<small>{r}</small></button>' for k, n, r, a in TEAM)
@@ -93,7 +102,7 @@ def index():
   <article class="panel r" data-ch="1" id="grad-90"><span class="kick">90° · Seite</span><h2 class="disp">Der Übergang macht den Schnitt.</h2><p>Drei Aufsätze, dann freie Hand: Wir blenden 0,5 auf 9 mm, bis keine Kante mehr zu sehen ist.</p><a class="link" href="schnitt.html" data-sub>Schnitt &amp; Übergang im Detail</a></article>
   <article class="panel" data-ch="2"><span class="kick">180° · Hinten</span><h2 class="disp">Hinten sieht's jeder. Außer dir.</h2><p>Rund, eckig oder ausgefadet: Die Nackenlinie zeigen wir dir im Handspiegel, bevor du aufstehst.</p><a class="link" href="nacken.html" data-sub>Nackenlinien erklärt</a></article>
   <article class="panel r" data-ch="3"><span class="kick">270° · Seite</span><h2 class="disp">Bart und Kontur aus einer Hand.</h2><p>Wangenlinie, Hals, Übergang vom Fade in den Bart – im selben Termin, ohne zweiten Stuhl.</p><a class="link" href="bart.html" data-sub>Bart &amp; Kontur</a></article>
-  <article class="panel" data-ch="4"><span class="kick">360° · Einmal rum</span><h2 class="disp">Und welcher Look passt zu dir?</h2><p>Drei Fragen, sechs Looks. Der Kopf ist rum – jetzt bist du dran.</p><a class="link" href="#looks">Zum Look-Finder</a></article>
+  <article class="panel" data-ch="4"><span class="kick">360° · Einmal rum</span><h2 class="disp">Und welcher Look passt zu dir?</h2><p>Männer oder Frauen, drei Fragen, sechs Looks. Der Kopf ist rum – jetzt bist du dran.</p><a class="link" href="#looks">Zum Look-Finder</a></article>
   <div class="dialnav" role="tablist" aria-label="Grad">{''.join(f'<button>{t}</button>' for t in ['0° Vorne', '90° Seite', '180° Hinten', '270° Bart', '360° Looks'])}</div>
   <div class="deg" aria-hidden="true">0°</div>
  </div>
@@ -102,12 +111,13 @@ def index():
 <section class="blk" id="looks"><div class="wrap">
  <div class="looks-head"><div><span class="kick">Look-Finder</span><h2 class="disp">Welcher Look<br>passt zu dir?</h2></div>
  <p class="lead">Beantworte drei Fragen. Wir markieren, was passt – und jeder Look hat eine eigene Seite mit Ablauf, Pflege und „Wann wieder?“.</p></div>
+ <div class="gsw" role="tablist" aria-label="Looks für"><button role="tab" aria-selected="true" aria-controls="looks-m" data-g="m">Männer</button><button role="tab" aria-selected="false" aria-controls="looks-w" data-g="w">Frauen</button><i aria-hidden="true"></i></div>
  <div class="quiz">
   <div class="q" data-q="len"><span>Länge</span><button data-v="kurz">Kurz</button><button data-v="mittel">Mittel</button><button data-v="lang">Lang</button></div>
   <div class="q" data-q="care"><span>Styling morgens</span><button data-v="wenig">2 Minuten</button><button data-v="mittel">5 Minuten</button><button data-v="viel">Gern mehr</button></div>
   <div class="q" data-q="type"><span>Haar</span><button data-v="glatt">Glatt</button><button data-v="locken">Wellig / Locken</button></div>
  </div>
- <div class="grid6">{looks}</div>
+ {looks}
 </div></section>
 
 <section class="blk farbe" id="farbe"><div class="wrap split">
@@ -135,7 +145,6 @@ def index():
 </div></section>
 
 <section class="teamstage" id="team">{pic('team', 'Das Team: vier Stylistinnen und Stylisten auf einem runden Podest im Studio')}
- <svg viewBox="0 0 600 120" aria-hidden="true"><ellipse cx="300" cy="60" rx="290" ry="50"/></svg>
  <div class="teamtxt rv"><span class="kick">Team</span><h2 class="disp">Vier Paar Hände.<br>Eine Linie.</h2><a class="link" href="team.html" data-sub>Alle vier kennenlernen</a></div>
  <div class="who">{''.join(f'<span>{n} · <em>{r}</em></span>' for _, n, r, _ in TEAM)}</div>
 </section>
@@ -229,7 +238,7 @@ def lookpage(k, n, s, tags, txt, rhythm, how):
     wk = int(rhythm.split('–')[-1].split()[0])
     body = steps([(f'Schritt {i + 1}', h) for i, h in enumerate(how)] + [('Wann wieder?', f'Nach {rhythm} wächst der Look sichtbar raus.')])
     body += f'<p><button class="btn ghost" data-ics="{wk}" data-title="HAARSCHARF: {n} nachschneiden">Erinnerung in {wk} Wochen in den Kalender</button></p>'
-    others = ''.join(f'<a class="look" href="look-{k2}.html" data-tags="">{pic(k2, n2)}<div class="cap"><b>{n2}</b><small>{s2}</small></div></a>' for k2, n2, s2, *_ in LOOKS if k2 != k)
+    others = ''.join(f'<a class="look" href="look-{k2}.html" data-tags="">{pic(k2, n2)}<div class="cap"><b>{n2}</b><small>{s2}</small></div></a>' for k2, n2, s2, *_ in LOOKS if k2 != k and GENDER[k2] == GENDER[k])
     body += f'<h2 class="disp" style="font-size:clamp(30px,3.4vw,48px);margin:60px 0 18px">Andere Looks</h2><div class="grid6">{others}</div>'
     return subpage('look-' + k, n, f'Look · {s}', n + '.', txt, k, body, f'{n}: Ablauf, Pflege und Rhythmus.')
 

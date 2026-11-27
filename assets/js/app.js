@@ -115,13 +115,27 @@
   // ---------- Look-Finder ----------
   const quiz = $('.quiz');
   if (quiz) {
-    const sel = {};
-    $$('.q', quiz).forEach(q => $$('button', q).forEach(b => b.addEventListener('click', () => {
-      $$('button', q).forEach(x => x.classList.toggle('on', x === b)); sel[q.dataset.q] = b.dataset.v;
-      const looks = $$('.look'); let best = null, bs = -1;
+    const sel = {}, gsw = $('.gsw');
+    const score = () => {
+      if (!Object.keys(sel).length) return;
+      const looks = $$('.grid6:not([hidden]) .look'); let best = null, bs = -1;
       looks.forEach(l => { const tags = l.dataset.tags.split(' '); const s = Object.values(sel).filter(v => tags.includes(v)).length; l.dataset.s = s; if (s > bs) { bs = s; best = l; } });
       looks.forEach(l => { const s = +l.dataset.s; l.classList.toggle('hit', s === bs && bs > 0); l.classList.toggle('dim', s < bs); });
+    };
+    $$('.q', quiz).forEach(q => $$('button', q).forEach(b => b.addEventListener('click', () => {
+      $$('button', q).forEach(x => x.classList.toggle('on', x === b)); sel[q.dataset.q] = b.dataset.v; score();
     })));
+    const setG = (g, anim) => {
+      gsw.classList.toggle('w', g === 'w');
+      $$('button', gsw).forEach(b => b.setAttribute('aria-selected', b.dataset.g === g));
+      $$('.grid6[data-g]').forEach(gr => { gr.hidden = gr.dataset.g !== g; gr.classList.remove('in'); if (!gr.hidden && anim) { void gr.offsetWidth; gr.classList.add('in'); } });
+      score(); try { localStorage.setItem('hs-g', g); } catch (e) {}
+    };
+    if (gsw) {
+      $$('button', gsw).forEach(b => b.addEventListener('click', () => setG(b.dataset.g, true)));
+      let g0 = 'm'; try { g0 = new URLSearchParams(location.search).get('g') || localStorage.getItem('hs-g') || 'm'; } catch (e) {}
+      if (g0 === 'w') setG('w', false);
+    }
   }
 
   // ---------- Farbe ----------
@@ -142,7 +156,7 @@
 
   // ---------- Team-Drehteller ----------
   const ts = $('.teamstage');
-  if (ts) addEventListener('scroll', () => { const r = ts.getBoundingClientRect(); const k = clamp(1 - r.top / innerHeight, 0, 1.6); ts.style.setProperty('--sc', 1.12 - Math.min(k, 1) * .12); ts.style.setProperty('--dash', 1600 * (1 - clamp(k - .3, 0, 1))); }, { passive: true });
+  if (ts) addEventListener('scroll', () => { const r = ts.getBoundingClientRect(); const k = clamp(1 - r.top / innerHeight, 0, 1.6); ts.style.setProperty('--sc', 1.08 - Math.min(k, 1) * .08); }, { passive: true });
 
   // ---------- Termin (Beispiel, keine echte Buchung) ----------
   const bk = $('#booking');
