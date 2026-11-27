@@ -62,7 +62,7 @@
     const off = document.createElement('canvas'), octx = off.getContext('2d');
     function size() { const r = devicePixelRatio > 1 ? 1.5 : 1; cv.width = Math.round(innerWidth * r); cv.height = Math.round(innerHeight * r); off.width = cv.width; off.height = cv.height; }
     function cover(img) { const W = cv.width, H = cv.height, iw = img.naturalWidth, ih = img.naturalHeight;
-      if (mob) { const h = H * .66, w = h * iw / ih; return [(W - w) / 2, H - h, w, h]; }
+      if (mob && innerHeight > 500) { const h = H * .58, w = h * iw / ih; return [(W - w) / 2, H - h, w, h]; }
       const s = Math.max(W / iw, H / ih); return [(W - iw * s) * .5, (H - ih * s) * .4, iw * s, ih * s]; }
     let curP = 0;
     function draw(force) {
@@ -73,7 +73,7 @@
       const f = frames[idx]; if (!f.complete || !f.naturalWidth) return;
       const [x, y, w, h] = cover(f);
       ctx.clearRect(0, 0, cv.width, cv.height); ctx.drawImage(f, x, y, w, h);
-      if (mob) { const bg = getComputedStyle(document.body).backgroundColor, g = ctx.createLinearGradient(0, y, 0, y + h * .18); g.addColorStop(0, bg); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; ctx.fillRect(0, y - 2, cv.width, h * .18 + 2); }
+      if (mob && innerHeight > 500) { const bg = getComputedStyle(document.body).backgroundColor, g = ctx.createLinearGradient(0, y, 0, y + h * .18); g.addColorStop(0, bg); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; ctx.fillRect(0, y - 2, cv.width, h * .18 + 2); }
       // Riesenschrift hinter den Kopf: Schrift zeichnen, dann Person (Bild ∩ Maske) darüber
       const m = masks[idx];
       if (m && m.complete && m.naturalWidth && brand) {

@@ -2,7 +2,7 @@
 """HAARSCHARF – Seiten bauen (index + Unterseiten). python3 build.py"""
 import json, os
 H = os.path.dirname(os.path.abspath(__file__))
-V = '27c'
+V = '27f'
 has = lambda k: os.path.exists(os.path.join(H, 'assets/img', k + '.webp'))
 SEQ = json.load(open(os.path.join(H, 'assets/seq/seq.json'))) if os.path.exists(os.path.join(H, 'assets/seq/seq.json')) else None
 
@@ -67,9 +67,9 @@ TEAM = [('mara', 'Mara', 'Farbe', 'team-mara'), ('jonas', 'Jonas', 'Fade & Bart'
 def index():
     seq = ''
     if SEQ:
-        seq = f' data-n="{SEQ["n"]}" data-seq="assets/seq/d/f_###.webp" data-seqm="assets/seq/m/f_###.webp" data-mask="assets/seq/dm/f_###.webp" data-maskm="assets/seq/mm/f_###.webp"'
+        seq = f' data-n="{SEQ["n"]}" data-seq="assets/seq/d/f_###.webp?v={V}" data-seqm="assets/seq/m/f_###.webp?v={V}" data-mask="assets/seq/dm/f_###.webp?v={V}" data-maskm="assets/seq/mm/f_###.webp?v={V}"'
     preload = '<link rel="preload" as="image" href="assets/img/hero.webp" media="(min-width: 861px)" fetchpriority="high"><link rel="preload" as="image" href="assets/img/hero-m.webp" media="(max-width: 860px)" fetchpriority="high">'
-    call = lambda ch, x, y, t, r=False, l=90: f'<div class="call{" r" if r else ""}" data-ch="{ch}" style="left:{x}%;top:{y}%;--l:{l}px">{t}</div>'
+    call = lambda ch, x, y, t, r=False, l=90, mx=None, my=None, ml=None: f'<div class="call{" r" if r else ""}" data-ch="{ch}" style="left:{x}%;top:{y}%;--l:{l}px;--mx:{mx if mx is not None else x}%;--my:{my if my is not None else y}%;--ml:{ml or l}px">{t}</div>'
     looks = ''.join(f'''<a class="look rv" href="look-{k}.html" data-sub data-tags="{tags}"><span class="match">Passt zu dir</span>{pic(k, f"{n} – Beispiel-Look")}<div class="cap"><b>{n}</b><small>{s}</small></div></a>''' for k, n, s, tags, *_ in LOOKS)
     cimgs = ''.join(f'<img src="assets/img/{k}.webp" alt="Haarfarbe {n}" loading="lazy" class="{"on" if k == "color-kupfer" else ""}">' for k, n, _ in COLORS if has(k))
     chips = ''.join(f'<button class="chip{" on" if k == "color-kupfer" else ""}" style="background:{c}" data-name="{n}" aria-label="{n}"><span>{n}</span></button>' for k, n, c in COLORS if has(k))
@@ -87,8 +87,8 @@ def index():
    <circle class="prog" cx="50" cy="50" r="46" transform="rotate(-90 50 50)"/></svg></div>
   <span class="scrollhint">Scroll · wir drehen einmal um dich</span>
   <div class="hero-cta"><a class="btn" href="#termin">Termin wählen</a><a class="btn ghost" href="#looks">Look finden</a></div>
-  {call(1, 24, 36, '9 mm', True, 150)}{call(1, 24, 46, '3 mm', True, 170)}{call(1, 24, 56, '0,5 mm', True, 190)}
-  {call(2, 60, 66, 'Nacken freihand', True, 90)}{call(3, 32, 62, 'Bart &amp; Kontur', False, 90)}
+  {call(1, 24, 36, '9 mm', True, 150, 4, 50, 120)}{call(1, 24, 46, '3 mm', True, 170, 4, 56, 130)}{call(1, 24, 56, '0,5 mm', True, 190, 4, 62, 140)}
+  {call(2, 60, 66, 'Nacken freihand', True, 90, 52, 78, 50)}{call(3, 32, 62, 'Bart &amp; Kontur', False, 90, 30, 70, 50)}
   <article class="panel" data-ch="0"><span class="kick">0° · Vorne</span><h2 class="disp">Erst reden.<br>Dann schneiden.</h2><p>Jeder Termin beginnt mit fünf Minuten Beratung vor dem Spiegel. Kopfform, Wirbel, Alltag – dann entscheiden wir zusammen.</p><a class="link" href="beratung.html" data-sub>So läuft die Beratung</a></article>
   <article class="panel r" data-ch="1" id="grad-90"><span class="kick">90° · Seite</span><h2 class="disp">Der Übergang macht den Schnitt.</h2><p>Drei Aufsätze, dann freie Hand: Wir blenden 0,5 auf 9 mm, bis keine Kante mehr zu sehen ist.</p><a class="link" href="schnitt.html" data-sub>Schnitt &amp; Übergang im Detail</a></article>
   <article class="panel" data-ch="2"><span class="kick">180° · Hinten</span><h2 class="disp">Hinten sieht's jeder. Außer dir.</h2><p>Rund, eckig oder ausgefadet: Die Nackenlinie zeigen wir dir im Handspiegel, bevor du aufstehst.</p><a class="link" href="nacken.html" data-sub>Nackenlinien erklärt</a></article>
