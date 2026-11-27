@@ -128,7 +128,7 @@
     const setG = (g, anim) => {
       gsw.classList.toggle('w', g === 'w');
       $$('button', gsw).forEach(b => b.setAttribute('aria-selected', b.dataset.g === g));
-      $$('.grid6[data-g]').forEach(gr => { gr.hidden = gr.dataset.g !== g; gr.classList.remove('in'); if (!gr.hidden && anim) { void gr.offsetWidth; gr.classList.add('in'); } });
+      $$('.grid6[data-g]').forEach(gr => { gr.hidden = gr.dataset.g !== g; gr.classList.remove('in'); if (!gr.hidden) gr.querySelectorAll('img').forEach(i => { i.loading = 'eager'; }), gr.querySelectorAll('.look.rv').forEach(l => l.classList.add('in')); if (!gr.hidden && anim) { void gr.offsetWidth; gr.classList.add('in'); } });
       score(); try { localStorage.setItem('hs-g', g); } catch (e) {}
     };
     if (gsw) {

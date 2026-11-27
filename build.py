@@ -2,7 +2,7 @@
 """HAARSCHARF – Seiten bauen (index + Unterseiten). python3 build.py"""
 import json, os
 H = os.path.dirname(os.path.abspath(__file__))
-V = '27g'
+V = '27h'
 has = lambda k: os.path.exists(os.path.join(H, 'assets/img', k + '.webp'))
 SEQ = json.load(open(os.path.join(H, 'assets/seq/seq.json'))) if os.path.exists(os.path.join(H, 'assets/seq/seq.json')) else None
 
