@@ -40,7 +40,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 .menu-open .burger span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 @media (max-width: 1180px) {
   .burger { display: block; }
-  .nav { position: fixed; inset: var(--hh) 0 auto; flex-direction: column; align-items: stretch; gap: 0; background: var(--bg); padding: 8px var(--pad) 24px; transform: translateY(-120%); transition: transform .4s cubic-bezier(.7, 0, .2, 1); box-shadow: 0 20px 40px rgba(0, 0, 0, .12); max-height: calc(100dvh - var(--hh)); overflow: auto; }
+  .nav { position: fixed; inset: var(--hh) 0 auto; flex-direction: column; align-items: stretch; gap: 0; background: var(--bg); padding: 8px var(--pad) 24px; transform: translateY(calc(-100% - var(--hh) - 40px)); transition: transform .4s cubic-bezier(.7, 0, .2, 1); box-shadow: 0 20px 40px rgba(0, 0, 0, .12); max-height: calc(100dvh - var(--hh)); overflow: auto; }
   .menu-open .nav { transform: none; }
   .nav a { font-size: 20px; padding: 12px 0; border-bottom: 1px solid var(--line); }
   .nav .btn { margin-top: 16px; justify-content: center; font-size: 17px; }
@@ -300,3 +300,8 @@ section.blk { padding: clamp(80px, 12vw, 160px) 0; position: relative; }
 .dlg h3 { font-family: var(--f-d); font-weight: 800; font-stretch: 75%; text-transform: uppercase; font-size: 34px; line-height: 1; margin-bottom: 10px; }
 .dlg p { color: var(--mute); margin-bottom: 18px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .rv, .kin span { opacity: 1; transform: none; } .colorbox { clip-path: none; } }
+
+.sub-img img { width: 100%; max-height: min(78vh, 880px); object-fit: cover; object-position: 50% 22%; }
+
+.btn { white-space: nowrap; }
+@media (max-width: 860px) { .chairwrap img { max-height: 42vh; width: 100%; object-fit: cover; } }
