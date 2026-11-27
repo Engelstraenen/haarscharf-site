@@ -49,14 +49,16 @@
     let frames = [], N = +(head.dataset.n || 0), ready = 0, lastIdx = -1, mob = innerWidth < 860;
     const seq = head.dataset[mob ? 'seqm' : 'seq'];
     const masks = []; const mpat = head.dataset[mob ? 'maskm' : 'mask'];
-    if (seq && N) {
+    const startSeq = () => {
       for (let i = 0; i < N; i++) {
         const im = new Image(); im.decoding = 'async';
         im.onload = () => { ready++; if (i === 0 && (!mpat || masks[0].complete)) { head.classList.add('seq'); draw(true); } };
         im.src = seq.replace('###', String(i).padStart(3, '0')); frames.push(im);
         if (mpat) { const m = new Image(); if (i === 0) m.onload = () => { if (frames[0].complete) { head.classList.add('seq'); draw(true); } }; m.src = mpat.replace('###', String(i).padStart(3, '0')); masks.push(m); }
       }
-    }
+    };
+    // Bildfolge erst nach dem Laden holen (Startbild + Titel zuerst, LCP)
+    if (seq && N) { if (document.readyState === 'complete') setTimeout(startSeq, 200); else addEventListener('load', () => setTimeout(startSeq, 200)); }
     const off = document.createElement('canvas'), octx = off.getContext('2d');
     function size() { const r = devicePixelRatio > 1 ? 1.5 : 1; cv.width = Math.round(innerWidth * r); cv.height = Math.round(innerHeight * r); off.width = cv.width; off.height = cv.height; }
     function cover(img) { const W = cv.width, H = cv.height, iw = img.naturalWidth, ih = img.naturalHeight;
@@ -77,7 +79,7 @@
       if (m && m.complete && m.naturalWidth && brand) {
         brand.style.visibility = 'hidden';
         const cs = getComputedStyle(brand), br = brand.getBoundingClientRect(), k = cv.width / innerWidth;
-        ctx.save(); ctx.globalAlpha = +cs.opacity || 1; ctx.fillStyle = cs.color; ctx.font = `${cs.fontWeight} ${cs.fontStretch} ${parseFloat(cs.fontSize) * k}px ${cs.fontFamily}`;
+        ctx.save(); ctx.globalAlpha = isNaN(parseFloat(cs.opacity)) ? 1 : parseFloat(cs.opacity); ctx.fillStyle = cs.color; ctx.font = `${cs.fontWeight} ${parseFloat(cs.fontSize) * k}px ${cs.fontFamily}`;
         ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'center';
         ctx.fillText(brand.textContent, (br.left + br.width / 2) * k, (br.top + br.height * .86) * k); ctx.restore();
         octx.clearRect(0, 0, off.width, off.height); octx.globalCompositeOperation = 'source-over'; octx.drawImage(m, x, y, w, h);

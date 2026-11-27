@@ -2,7 +2,7 @@
 """HAARSCHARF – Seiten bauen (index + Unterseiten). python3 build.py"""
 import json, os
 H = os.path.dirname(os.path.abspath(__file__))
-V = '27b'
+V = '27c'
 has = lambda k: os.path.exists(os.path.join(H, 'assets/img', k + '.webp'))
 SEQ = json.load(open(os.path.join(H, 'assets/seq/seq.json'))) if os.path.exists(os.path.join(H, 'assets/seq/seq.json')) else None
 
@@ -87,7 +87,7 @@ def index():
    <circle class="prog" cx="50" cy="50" r="46" transform="rotate(-90 50 50)"/></svg></div>
   <span class="scrollhint">Scroll · wir drehen einmal um dich</span>
   <div class="hero-cta"><a class="btn" href="#termin">Termin wählen</a><a class="btn ghost" href="#looks">Look finden</a></div>
-  {call(1, 61, 44, '0,5 mm', True, 70)}{call(1, 61, 55, '3 mm', True, 110)}{call(1, 61, 34, '9 mm', True, 90)}
+  {call(1, 24, 36, '9 mm', True, 150)}{call(1, 24, 46, '3 mm', True, 170)}{call(1, 24, 56, '0,5 mm', True, 190)}
   {call(2, 60, 66, 'Nacken freihand', True, 90)}{call(3, 32, 62, 'Bart &amp; Kontur', False, 90)}
   <article class="panel" data-ch="0"><span class="kick">0° · Vorne</span><h2 class="disp">Erst reden.<br>Dann schneiden.</h2><p>Jeder Termin beginnt mit fünf Minuten Beratung vor dem Spiegel. Kopfform, Wirbel, Alltag – dann entscheiden wir zusammen.</p><a class="link" href="beratung.html" data-sub>So läuft die Beratung</a></article>
   <article class="panel r" data-ch="1" id="grad-90"><span class="kick">90° · Seite</span><h2 class="disp">Der Übergang macht den Schnitt.</h2><p>Drei Aufsätze, dann freie Hand: Wir blenden 0,5 auf 9 mm, bis keine Kante mehr zu sehen ist.</p><a class="link" href="schnitt.html" data-sub>Schnitt &amp; Übergang im Detail</a></article>
