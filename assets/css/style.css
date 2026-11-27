@@ -305,3 +305,6 @@ section.blk { padding: clamp(80px, 12vw, 160px) 0; position: relative; }
 
 .btn { white-space: nowrap; }
 @media (max-width: 860px) { .chairwrap img { max-height: 42vh; width: 100%; object-fit: cover; } }
+
+.chairwrap img { aspect-ratio: 4 / 5; width: 100%; object-fit: cover; object-position: 24% 55%; }
+@media (max-width: 860px) { .chairwrap img { aspect-ratio: 4 / 3; object-position: 24% 60%; max-height: none; } }
