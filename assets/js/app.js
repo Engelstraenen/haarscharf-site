@@ -42,7 +42,7 @@
   if (spin) {
     const stage = $('.stage', spin), brand = $('.brand', spin), prog = $('.dial .prog', spin), deg = $('.deg', spin);
     const panels = $$('.panel', spin), calls = $$('.call', spin), navb = $$('.dialnav button', spin), cta = $('.hero-cta', spin), hint = $('.scrollhint', spin);
-    const head = stage, cv = $('canvas.cv', spin), ctx = cv.getContext('2d');
+    const head = stage, cv = $('canvas.cv', spin), ctx = cv.getContext('2d'); ctx.imageSmoothingQuality = 'high';
     const R = 46, C = 2 * Math.PI * R;
     if (prog) { prog.style.strokeDasharray = C; prog.style.strokeDashoffset = C; }
     // Bildfolge (aus dem 360°-Film) – data-seq="assets/seq/f_###.webp" data-n="120"
@@ -60,7 +60,7 @@
     // Bildfolge erst nach dem Laden holen (Startbild + Titel zuerst, LCP)
     if (seq && N) { if (document.readyState === 'complete') setTimeout(startSeq, 200); else addEventListener('load', () => setTimeout(startSeq, 200)); }
     const off = document.createElement('canvas'), octx = off.getContext('2d');
-    function size() { const r = devicePixelRatio > 1 ? 1.5 : 1; cv.width = Math.round(innerWidth * r); cv.height = Math.round(innerHeight * r); off.width = cv.width; off.height = cv.height; }
+    function size() { const r = Math.min(devicePixelRatio || 1, 2); cv.width = Math.round(innerWidth * r); cv.height = Math.round(innerHeight * r); off.width = cv.width; off.height = cv.height; ctx.imageSmoothingQuality = 'high'; octx.imageSmoothingQuality = 'high'; }
     function cover(img) { const W = cv.width, H = cv.height, iw = img.naturalWidth, ih = img.naturalHeight;
       if (mob && innerHeight > 500) { const h = H * .58, w = h * iw / ih; return [(W - w) / 2, H - h, w, h]; }
       const s = Math.max(W / iw, H / ih); return [(W - iw * s) * .5, (H - ih * s) * .4, iw * s, ih * s]; }
